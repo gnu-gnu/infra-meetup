@@ -15,11 +15,4 @@ public class InfraMeetupApplication {
         SpringApplication.run(InfraMeetupApplication.class, args);
     }
 
-    @Bean
-    public MeterRegistryCustomizer<MeterRegistry> metricConfig(){
-        return registry -> registry.config()
-                .namingConvention((name, type, unit) -> "infra-meetup."+name)
-                .commonTags("zone", "infra-1");
-    }
-
 }

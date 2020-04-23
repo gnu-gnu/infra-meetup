@@ -68,6 +68,11 @@
                             <password></password>
                         </auth>
                     </to>
+                    <container>
+                        <ports>
+                            <port>8888</port>
+                        </ports>
+                    </container>
                 </configuration>
             </plugin>
             <plugin>
