@@ -15,4 +15,10 @@ public class InfraMeetupApplication {
         SpringApplication.run(InfraMeetupApplication.class, args);
     }
 
+    @Bean
+    public MeterRegistryCustomizer<MeterRegistry> metricConfig(){
+        return registry -> registry.config()
+                .commonTags("zone", "infra-1");
+    }
+
 }
