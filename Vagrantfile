@@ -12,7 +12,12 @@ Vagrant.configure("2") do |config|
   # Virtual machine 1 - master node
   config.vm.define "vm0" do |cfg|
     cfg.vm.hostname = "gnu"
-    cfg.vm.network "public_network", ip: "192.168.0.111"
+    cfg.vm.network "private_network", ip: "192.168.0.111"
+    cfg.vm.network "forwarded_port", guest: 3000, host:3000
+    cfg.vm.network "forwarded_port", guest: 8888, host:8888
+    cfg.vm.network "forwarded_port", guest: 9090, host:9090
+    cfg.vm.network "forwarded_port", guest: 9100, host:9100
+    cfg.vm.network "forwarded_port", guest: 8080, host:8080
 	cfg.vm.provider "virtualbox" do |vb|
 		vb.name = "gnu"
 	end
