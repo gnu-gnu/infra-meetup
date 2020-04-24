@@ -106,13 +106,17 @@ services:
 # prometheus 서비스를 정의하는 섹션이다.
   prometheus:
     image: prom/prometheus:v2.17.2
-# prometheus 의 설정은 호스트의 /root/prometheus/prometheus.yml 경로에서 컨테이너 내부의 /etc/prometheus/prometheus.yml 경로로 연결하여 사용한다.
-# /root/prometheus/prometheus.yml 경로에 해당 파일이 위치해야 한다. 다른 경로에 이 파일이 있다면 해당 경로로 값을 수정해야 한다.
+# prometheus 의 설정은 호스트의 /root/prometheus/prometheus.yml 경로에서 컨테이너 내부의 /etc/prometheus/prometheus.yml
+# 경로로 연결하여 사용한다.
+# /root/prometheus/prometheus.yml 경로에 해당 파일이 위치해야 한다. 
+# 다른 경로에 이 파일이 있다면 해당 경로로 값을 수정해야 한다.
 # 컨테이너 내부의 /prometheus 디렉토리는 호스트의 prometheus_data 볼륨과 연결한다.
     volumes:
       - /root/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
-# prometheus 실행 커맨드에 설정 파일의 위치 (위에서 지정해 준 것) 와 데이터를 저장할 위치 (위에서 지정한 볼륨과 연결된 위치)를 지정한다. 기본 설정으로 사용하면 데이터가 prometheus 하위 디렉토리로 지정된다. 실제 운영환경에서는 NAS 혹은 용량이 충분히 확보된 Partition으로 연결 시켜주는 것이 중요하다
+# prometheus 실행 커맨드에 설정 파일의 위치 (위에서 지정해 준 것) 와 데이터를 저장할 위치 (위에서 지정한 볼륨과 연결된 위치)를 
+# 지정한다. 기본 설정으로 사용하면 데이터가 prometheus 하위 디렉토리로 지정된다. 
+# 실제 운영환경에서는 NAS 혹은 용량이 충분히 확보된 Partition으로 연결 시켜주는 것이 중요하다
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -136,7 +140,8 @@ services:
       - back-tier
 
 # node-exporter는 호스트 머신의 정보를 수집하여 prometheus로 전송하는 Agent이다.
-# 원래 이것은 host에 직접 설치하는 것도 적절하지만, 환경 구성의 편의를 위해 컨테이너로 생성하고, 호스트의 시스템 정보와 관련된 디렉토리를 호스트 내부로 연결해 사용한다.
+# 원래 이것은 host에 직접 설치하는 것도 적절하지만, 환경 구성의 편의를 위해 컨테이너로 생성하고, 호스트의 시스템 정보와 관련된 
+# 디렉토리를 호스트 내부로 연결해 사용한다.
   node-exporter:
     image: prom/node-exporter
 # /proc : Kernel, Process 정보를 담고 있다.
@@ -161,7 +166,8 @@ services:
       - back-tier
     restart: always
 # 구동 중인 컨테이너의 자원 사용량, 성능 메트릭을 노출시켜주는 cAdvisor 이다.
-# 기본적으로 docker 의 정보를 수집하는데 최적화 되어 있으므로 k8s를 사용할 경우 각 노드에서 사용 중인 docker의 정보를 수집할 수 있도록 DaemonSet으로 배포하는 전략이 유용하다
+# 기본적으로 docker 의 정보를 수집하는데 최적화 되어 있으므로 k8s를 사용할 경우 각 노드에서 사용 중인 docker의 정보를 
+# 수집할 수 있도록 DaemonSet으로 배포하는 전략이 유용하다
   cadvisor:
     image: google/cadvisor
     volumes:
